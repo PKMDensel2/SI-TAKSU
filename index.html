@@ -2,140 +2,48 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>SI-TAKSU - Puskesmas II Denpasar Selatan</title>
     
-    <!-- Favicon & OG Tags -->
+    <!-- Favicon / Ikon Tab Browser (Logistik & Sarpras) -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2897/2897785.png" type="image/png">
+
+    <!-- Open Graph Metadata -->
     <meta property="og:title" content="SI-TAKSU - Puskesmas II Denpasar Selatan">
-    <meta property="og:description" content="Sistem Informasi Tata Pengelolaan Aset & Logistik UPTD Puskesmas II Denpasar Selatan">
+    <meta property="og:description" content="Sistem Informasi Tata Pengelolaan Aset & Logistik - UPTD Puskesmas II Denpasar Selatan">
     <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/2897/2897785.png">
+    <meta property="og:url" content="https://pkmdensel2.github.io/SI-TAKSU/">
     <meta property="og:type" content="website">
 
     <style>
-        * { box-sizing: border-box; }
-        html, body { 
+        body, html { 
             margin: 0; 
             padding: 0; 
             height: 100%; 
             width: 100%;
             overflow: hidden; 
-            background-color: #f8fafc;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            -webkit-overflow-scrolling: touch; /* Mencegah lag scrolling di Safari iOS */
+            background-color: #f8f9fa;
         }
 
-        /* Container Pembungkus Fullscreen HP */
-        .iframe-container {
+        iframe {
             position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        #app-frame {
-            width: 100%;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
             height: 100%;
             border: none;
-            display: block;
-        }
-
-        #maintenance-screen {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #ffffff;
-            z-index: 999;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .maintenance-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 30px 20px;
-            max-width: 420px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .maintenance-icon { width: 70px; height: 70px; margin-bottom: 15px; }
-        .badge-maintenance {
-            background-color: #f59e0b; color: #78350f;
-            font-weight: 700; font-size: 0.7rem; padding: 4px 10px;
-            border-radius: 9999px; text-transform: uppercase; margin-bottom: 10px; display: inline-block;
-        }
-        h1 { font-size: 1.3rem; margin: 0 0 10px 0; color: #f8fafc; }
-        p { color: #94a3b8; font-size: 0.88rem; line-height: 1.4; margin: 0 0 20px 0; }
-        
-        .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-        .btn-refresh {
-            background: #0284c7; color: white; border: none;
-            padding: 12px 20px; font-size: 0.85rem; font-weight: 600;
-            border-radius: 10px; cursor: pointer; text-decoration: none;
-        }
-        .btn-direct {
-            background: rgba(255, 255, 255, 0.15); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.2);
-            padding: 10px 20px; font-size: 0.8rem; font-weight: 500;
-            border-radius: 10px; text-decoration: none; display: inline-block;
         }
     </style>
 </head>
 <body>
 
-    <div class="iframe-container">
-        <!-- IFRAME DENGAN IZIN LENGKAP UNTUK PERANGKAT MOBILE -->
-        <iframe 
-            id="app-frame"
-            src="https://script.google.com/macros/s/AKfycbyTWVlZmRJ1PG01NwN57HgtDRl3NgrTB6ySotThGxFGoLDnOIGKBeTeScw_Re4ryuU/exec" 
-            allow="camera *; geolocation *; microphone *; clipboard-read *; clipboard-write *; autoplay *"
-            sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads"
-            title="SI-TAKSU App">
-        </iframe>
-    </div>
-
-    <!-- Halaman Pemeliharaan & Tombol Buka Langsung (Solusi jika HP memblokir iframe) -->
-    <div id="maintenance-screen">
-        <div class="maintenance-card">
-            <span class="badge-maintenance">System Notice</span>
-            <br>
-            <img src="https://cdn-icons-png.flaticon.com/512/2897/2897785.png" alt="Logistik Icon" class="maintenance-icon">
-            <h1>Kendala Memuat Aplikasi</h1>
-            <p>Jika tampilan tidak muncul di HP Anda, browser mungkin memblokir sistem iframe Google.</p>
-            
-            <div class="btn-group">
-                <button class="btn-refresh" onclick="reloadApp()">Muat Ulang Lagi</button>
-                <a href="https://script.google.com/macros/s/AKfycbyTWVlZmRJ1PG01NwN57HgtDRl3NgrTB6ySotThGxFGoLDnOIGKBeTeScw_Re4ryuU/exec" target="_blank" class="btn-direct">Buka Langsung Aplikasi ↗</a>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const iframe = document.getElementById('app-frame');
-        const maintenanceScreen = document.getElementById('maintenance-screen');
-
-        function showMaintenance() {
-            iframe.style.display = 'none';
-            maintenanceScreen.style.display = 'flex';
-        }
-
-        function reloadApp() {
-            maintenanceScreen.style.display = 'none';
-            iframe.style.display = 'block';
-            iframe.src = iframe.src;
-        }
-    </script>
+    <!-- IFRAME GOOGLE APPS SCRIPT SI-TAKSU -->
+    <iframe 
+        src="https://script.google.com/macros/s/AKfycbyTWVlZmRJ1PG01NwN57HgtDRl3NgrTB6ySotThGxFGoLDnOIGKBeTeScw_Re4ryuU/exec" 
+        allow="camera; geolocation; microphone; clipboard-read; clipboard-write" 
+        title="SI-TAKSU App">
+    </iframe>
 
 </body>
 </html>
