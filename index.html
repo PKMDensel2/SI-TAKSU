@@ -2,53 +2,53 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <title>SI-TAKSU - Puskesmas II Denpasar Selatan</title>
     
-    <!-- Favicon / Ikon Tab Browser Identik Logistik & Aset (Box / Inventory) -->
+    <!-- Favicon & OG Tags -->
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2897/2897785.png" type="image/png">
-
-    <!-- Open Graph Metadata untuk WhatsApp & Media Sosial -->
     <meta property="og:title" content="SI-TAKSU - Puskesmas II Denpasar Selatan">
     <meta property="og:description" content="Sistem Informasi Tata Pengelolaan Aset & Logistik UPTD Puskesmas II Denpasar Selatan">
     <meta property="og:image" content="https://cdn-icons-png.flaticon.com/512/2897/2897785.png">
     <meta property="og:type" content="website">
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body, html { 
+        * { box-sizing: border-box; }
+        html, body { 
             margin: 0; 
             padding: 0; 
             height: 100%; 
             width: 100%;
             overflow: hidden; 
             background-color: #f8fafc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-overflow-scrolling: touch; /* Mencegah lag scrolling di Safari iOS */
         }
 
-        /* Iframe Aplikasi Utama */
-        #app-frame {
+        /* Container Pembungkus Fullscreen HP */
+        .iframe-container {
             position: absolute;
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            border: none;
-            z-index: 10;
-        }
-
-        /* Layar Maintenance / Penggalangan Server */
-        #maintenance-screen {
-            display: none; /* Muncul otomatis jika web app google script error/offline */
-            position: fixed;
             top: 0;
             left: 0;
+            bottom: 0;
+            right: 0;
             width: 100%;
             height: 100%;
+            overflow: hidden;
+        }
+
+        #app-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        #maintenance-screen {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #ffffff;
             z-index: 999;
@@ -60,107 +60,68 @@
         }
 
         .maintenance-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 20px;
-            padding: 40px 30px;
-            max-width: 480px;
+            padding: 30px 20px;
+            max-width: 420px;
             width: 90%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        .maintenance-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-        }
-
+        .maintenance-icon { width: 70px; height: 70px; margin-bottom: 15px; }
         .badge-maintenance {
-            display: inline-block;
-            background-color: #f59e0b;
-            color: #78350f;
-            font-weight: 700;
-            font-size: 0.75rem;
-            padding: 4px 12px;
-            border-radius: 9999px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
+            background-color: #f59e0b; color: #78350f;
+            font-weight: 700; font-size: 0.7rem; padding: 4px 10px;
+            border-radius: 9999px; text-transform: uppercase; margin-bottom: 10px; display: inline-block;
         }
-
-        h1 {
-            font-size: 1.5rem;
-            margin: 0 0 10px 0;
-            font-weight: 700;
-            color: #f8fafc;
-        }
-
-        p {
-            color: #94a3b8;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin: 0 0 25px 0;
-        }
-
+        h1 { font-size: 1.3rem; margin: 0 0 10px 0; color: #f8fafc; }
+        p { color: #94a3b8; font-size: 0.88rem; line-height: 1.4; margin: 0 0 20px 0; }
+        
+        .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; }
         .btn-refresh {
-            background: #0284c7;
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            background: #0284c7; color: white; border: none;
+            padding: 12px 20px; font-size: 0.85rem; font-weight: 600;
+            border-radius: 10px; cursor: pointer; text-decoration: none;
         }
-
-        .btn-refresh:hover {
-            background: #0369a1;
-            transform: translateY(-2px);
-        }
-
-        .footer-text {
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: #64748b;
+        .btn-direct {
+            background: rgba(255, 255, 255, 0.15); color: #e2e8f0; border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 20px; font-size: 0.8rem; font-weight: 500;
+            border-radius: 10px; text-decoration: none; display: inline-block;
         }
     </style>
 </head>
 <body>
 
-    <!-- IFRAME GOOGLE APPS SCRIPT SI-TAKSU -->
-    <!-- Ganti URL src di bawah ini dengan Web App Deploy Link SI-TAKSU Anda -->
-    <iframe 
-        id="app-frame"
-        src="https://script.google.com/macros/s/AKfycbyTWVlZmRJ1PG01NwN57HgtDRl3NgrTB6ySotThGxFGoLDnOIGKBeTeScw_Re4ryuU/exec" 
-        allow="camera; geolocation; microphone; clipboard-read; clipboard-write" 
-        title="SI-TAKSU App"
-        onerror="showMaintenance()">
-    </iframe>
+    <div class="iframe-container">
+        <!-- IFRAME DENGAN IZIN LENGKAP UNTUK PERANGKAT MOBILE -->
+        <iframe 
+            id="app-frame"
+            src="https://script.google.com/macros/s/AKfycbyTWVlZmRJ1PG01NwN57HgtDRl3NgrTB6ySotThGxFGoLDnOIGKBeTeScw_Re4ryuU/exec" 
+            allow="camera *; geolocation *; microphone *; clipboard-read *; clipboard-write *; autoplay *"
+            sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads"
+            title="SI-TAKSU App">
+        </iframe>
+    </div>
 
-    <!-- LAYAR PERINGATAN MAINTENANCE (Tampil otomatis jika Web App Offline/Error) -->
+    <!-- Halaman Pemeliharaan & Tombol Buka Langsung (Solusi jika HP memblokir iframe) -->
     <div id="maintenance-screen">
         <div class="maintenance-card">
-            <span class="badge-maintenance">System Maintenance</span>
+            <span class="badge-maintenance">System Notice</span>
             <br>
             <img src="https://cdn-icons-png.flaticon.com/512/2897/2897785.png" alt="Logistik Icon" class="maintenance-icon">
-            <h1>SI-TAKSU Sedang Pemeliharaan</h1>
-            <p>Sistem Informasi Aset & Logistik UPTD Puskesmas II Denpasar Selatan saat ini sedang dalam pembaruan data atau pemeliharaan berkala. Silakan coba beberapa saat lagi.</p>
-            <button class="btn-refresh" onclick="reloadApp()">Muat Ulang Aplikasi</button>
-            <div class="footer-text">UPTD Puskesmas II Denpasar Selatan &copy; 2026</div>
+            <h1>Kendala Memuat Aplikasi</h1>
+            <p>Jika tampilan tidak muncul di HP Anda, browser mungkin memblokir sistem iframe Google.</p>
+            
+            <div class="btn-group">
+                <button class="btn-refresh" onclick="reloadApp()">Muat Ulang Lagi</button>
+                <a href="https://script.google.com/macros/s/AKfycbyTWVlZmRJ1PG01NwN57HgtDRl3NgrTB6ySotThGxFGoLDnOIGKBeTeScw_Re4ryuU/exec" target="_blank" class="btn-direct">Buka Langsung Aplikasi ↗</a>
+            </div>
         </div>
     </div>
 
     <script>
-        // Logika Deteksi Jika Server Google Apps Script Error / Timeout / Under Maintenance
         const iframe = document.getElementById('app-frame');
         const maintenanceScreen = document.getElementById('maintenance-screen');
 
@@ -172,24 +133,8 @@
         function reloadApp() {
             maintenanceScreen.style.display = 'none';
             iframe.style.display = 'block';
-            iframe.src = iframe.src; // Reload iframe
+            iframe.src = iframe.src;
         }
-
-        // Timer Fallback: Jika iframe tidak merespons/error dalam 12 detik
-        let checkLoad = setTimeout(function() {
-            try {
-                // Mengecek apakah iframe gagal diakses
-                if (!iframe.contentWindow || iframe.contentWindow.location.href === "about:blank") {
-                    // Masih loading normal
-                }
-            } catch (e) {
-                // Diabaikan karena cross-origin kebijakan iframe Google
-            }
-        }, 12000);
-
-        iframe.onload = function() {
-            clearTimeout(checkLoad);
-        };
     </script>
 
 </body>
